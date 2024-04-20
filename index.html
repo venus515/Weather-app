@@ -1,56 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather station</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-</head>
-<body>
-     
-      
-   <div class="card">
-        <div class="heading">
-                <h1>WEATHER APP</h1>
-             </div> 
- <div class="search">
-             
-           <input  id="icon" type="text" placeholder="Search for city" spellcheck="false">
-           <button id="btn" type="submit" ><i class="fa fa-search"></i></button>
-        </div>
-        <div class="Weather">
-<img src="rain.png" alt="" class="weather-icon">
-<h1 class="temp">T°C</h1>
-<h2 class="city">City Name</h2>
-</div>
-<div class="details">
-        <div class="col1">
-                <img src="humidity.png" alt="">
-                <div>
-                        <p class="humidity">In %</p>
-                        <p>Humidity</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
+        <title>Weather App</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="weather-app">
+            <form class="search-form" action="">
+                <input
+                    class="city-input"
+                    type="text"
+                    placeholder="Enter City Name"
+                />
+                <button class="search-btn" type="submit">
+                    <i class="material-icons">search</i>
+                </button>
+            </form>
+            <div class="city-date-section">
+                <h2 class="city">Delhi</h2>
+                <p class="date">7 Jan 2024</p>
+            </div>
+            <div class="temperature-info">
+                <div class="description">
+                    <i class="material-icons">sunny</i>
+                    <span class="description-text">Sunny</span>
                 </div>
+                <div class="temp">20°C</div>
+            </div>
+            <div class="additional-info">
+                <div class="wind-info">
+                    <i class="material-icons">air</i>
+                    <div>
+                        <h3 class="wind-speed">4 KM/H</h3>
+                        <p class="wind-label">Wind</p>
+                    </div>
+                </div>
+                <div class="humidity-info">
+                    <i class="material-icons">water_drop</i>
+                    <div>
+                        <h3 class="humidity">45%</h3>
+                        <p class="humidity-label">Humidity</p>
+                    </div>
+                </div>
+                <div class="visibility-info">
+                    <i class="material-icons">visibility</i>
+                    <div>
+                        <h3 class="visibility-distance">4 KM/H</h3>
+                        <p class="visibility">Visibility</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col2">
-                <img src="wind.png" alt="">
-                <div>
 
-                        <p class="wind">In %</p>
-                        <p>wind</p>
-                
-        
-</div>
-        </div>
-
-
-        </div>
-
-        </div>
-
-<script src="script.js"></script>
-</body>
-
+        <script src="script.js"></script>
+    </body>
 </html>
+ 
+     
