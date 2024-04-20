@@ -1,57 +1,80 @@
-// const options = {
-// 	method: 'GET',
-// 	headers: {
-// 		'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
-// 		'X-RapidAPI-Host': 'ai-weather-by-meteosource.p.rapidapi.com'
-// 	}
-// };
+const apiKey = '07f80daf075cbea3b3810c246f3fb796'
 
-// fetch('https://ai-weather-by-meteosource.p.rapidapi.com/find_places?text=fishermans%20wharf&language=en', options)
-// 	.then(response => response.json())
-// 	.then(response => console.log(response))
-// 	.catch(err => console.error(err));
+async function fetchWeatherData(city) {
+    try {
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
+        );
 
-
-
-
-const apiKey="07f80daf075cbea3b3810c246f3fb796";
-const apiUrl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-
-
-
-const searchbox = document.querySelector(".search input");
-const searchbtn = document.querySelector(".search button");
-const weatherIcon= document.querySelector(".weather-icon")
-
-async function checkweather(city){
-	const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
-	var data = await response.json();
-	console.log(data);
-	document.querySelector(".city").innerHTML=data.name;
-	document.querySelector(".temp").innerHTML=Math.round(data.main.temp) + "°C";
-	document.querySelector(".humidity").innerHTML=data.main.humidity +"%";
-	document.querySelector(".wind").innerHTML=data.wind.speed + "km/h";
-
-if(data.weather[0].main=="Clouds"){
-	weatherIcon.src = "clouds.png";
-}
-if(data.weather[0].main=="Clear"){
-	weatherIcon.src = "clear.png";
-}
-if(data.weather[0].main=="Rain"){
-	weatherIcon.src = "rain.png";
-}
-if(data.weather[0].main=="Drizzle"){
-	weatherIcon.src = "cdrizzle.png";
-}
-if(data.weather[0].main=="Mist"){
-	weatherIcon.src = "mist.png";
-}
+        if (!response.ok) {
+            throw new Error("Unable to fetch weather data");
+        }
+        const data = await response.json();
+        console.log(data);
+        // console.log(data.main.temp);
+        // console.log(data.name);
+        // console.log(data.wind.speed);
+        // console.log(data.main.humidity);
+        // console.log(data.visibility);
+        updateWeatherUI(data);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
+const cityElement = document.querySelector(".city");
+const temperature = document.querySelector(".temp");
+const windSpeed = document.querySelector(".wind-speed");
+const humidity = document.querySelector(".humidity");
+const visibility = document.querySelector(".visibility-distance");
 
-searchbtn.addEventListener("click",()=>{
-	checkweather(searchbox.value);
+const descriptionText = document.querySelector(".description-text");
+const date = document.querySelector(".date");
+const descriptionIcon = document.querySelector(".description i");
 
+// fetchWeatherData();
 
-})
+function updateWeatherUI(data) {
+    cityElement.textContent = data.name;
+    temperature.textContent = `${Math.round(data.main.temp)}°C`;
+    windSpeed.textContent = `${data.wind.speed} km/h`;
+    humidity.textContent = `${data.main.humidity}%`;
+    visibility.textContent = `${data.visibility / 1000} km`;
+    descriptionText.textContent = data.weather[0].description;
+
+    const currentDate = new Date();
+    date.textContent = currentDate.toDateString();
+    const weatherIconName = getWeatherIconName(data.weather[0].main);
+    descriptionIcon.innerHTML = `<i class="material-icons">${weatherIconName}</i>`;
+}
+
+const formElement = document.querySelector(".search-form");
+const inputElement = document.querySelector(".city-input");
+
+formElement.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const city = inputElement.value;
+    if (city !== "") {
+        fetchWeatherData(city);
+        inputElement.value = "";
+    }
+});
+
+function getWeatherIconName(weatherCondition) {
+    const iconMap = {
+        Clear: "wb_sunny",
+        Clouds: "wb_cloudy",
+        Rain: "umbrella",
+        Thunderstorm: "flash_on",
+        Drizzle: "grain",
+        Snow: "ac_unit",
+        Mist: "cloud",
+        Smoke: "cloud",
+        Haze: "cloud",
+        Fog: "cloud",
+    };
+
+    return iconMap[weatherCondition] || "help";
+}
+
